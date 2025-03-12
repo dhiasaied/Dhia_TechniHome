@@ -5,6 +5,7 @@ class Utilisateur {
   String email;
   String motDePasse;
   String role;
+  String status;  
 
   Utilisateur({
     this.id,
@@ -13,6 +14,7 @@ class Utilisateur {
     required this.email,
     required this.motDePasse,
     required this.role,
+    required this.status, 
   });
 
   Map<String, dynamic> toMap() {
@@ -23,6 +25,7 @@ class Utilisateur {
       'email': email,
       'mot_de_passe': motDePasse,
       'role': role,
+      'status': status,  
     };
   }
 
@@ -34,6 +37,7 @@ class Utilisateur {
       email: map['email'],
       motDePasse: map['mot_de_passe'],
       role: map['role'],
+      status: map['status'],  
     );
   }
 }
