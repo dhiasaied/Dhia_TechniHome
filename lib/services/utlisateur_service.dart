@@ -22,9 +22,9 @@ class DatabaseService {
     final path = join(await getDatabasesPath(), 'immobilier.db');
     return await openDatabase(
       path,
-      version: 2,  
+      version: 3, 
       onCreate: _createTables,
-      onUpgrade: _onUpgrade,  
+      onUpgrade: _onUpgrade,
     );
   }
 
@@ -37,7 +37,8 @@ class DatabaseService {
         email TEXT NOT NULL UNIQUE,
         mot_de_passe TEXT NOT NULL,
         role TEXT NOT NULL,
-        status TEXT NOT NULL  // New field for status
+        status TEXT NOT NULL,
+        tel TEXT NOT NULL  // New field for tel (telephone)
       )
     ''');
   }
@@ -46,6 +47,11 @@ class DatabaseService {
     if (oldVersion < 2) {
       await db.execute('''
         ALTER TABLE utilisateur ADD COLUMN status TEXT NOT NULL DEFAULT 'inactive'
+      ''');
+    }
+    if (oldVersion < 3) {
+      await db.execute('''
+        ALTER TABLE utilisateur ADD COLUMN tel TEXT NOT NULL DEFAULT ''  // Add tel column if upgrading to version 3
       ''');
     }
   }
