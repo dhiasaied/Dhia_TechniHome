@@ -22,8 +22,9 @@ class DatabaseService {
     final path = join(await getDatabasesPath(), 'immobilier.db');
     return await openDatabase(
       path,
-      version: 1,
+      version: 2,  
       onCreate: _createTables,
+      onUpgrade: _onUpgrade,  
     );
   }
 
@@ -35,9 +36,18 @@ class DatabaseService {
         prenom TEXT NOT NULL,
         email TEXT NOT NULL UNIQUE,
         mot_de_passe TEXT NOT NULL,
-        role TEXT NOT NULL
+        role TEXT NOT NULL,
+        status TEXT NOT NULL  // New field for status
       )
     ''');
+  }
+
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      await db.execute('''
+        ALTER TABLE utilisateur ADD COLUMN status TEXT NOT NULL DEFAULT 'inactive'
+      ''');
+    }
   }
 
   Future<void> insertUtilisateur(Utilisateur utilisateur) async {
