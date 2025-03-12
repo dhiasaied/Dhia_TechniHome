@@ -31,7 +31,7 @@ class DatabaseService {
   Future<void> _createTables(Database db, int version) async {
     await db.execute('''
       CREATE TABLE utilisateur (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        idUtilisateur INTEGER PRIMARY KEY AUTOINCREMENT,
         nom TEXT NOT NULL,
         prenom TEXT NOT NULL,
         email TEXT NOT NULL UNIQUE,
